@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetFaye - AI Billing Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #ec4899;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray: #64748b;
+            --free: #3b82f6;
+            --premium: #ec4899;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 18px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 16px;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 6px rgba(236, 72, 153, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #db2777;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(236, 72, 153, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .ai-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .ai-feature {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 16px;
+            width: 250px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .ai-feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .ai-feature i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        /* Tabs Section */
+        .tabs-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            max-width: 1000px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 700;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 320px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card.free {
+            border-top: 5px solid var(--free);
+        }
+        
+        .pricing-card.premium {
+            border-top: 5px solid var(--premium);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pricing-card.premium:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--premium);
+            color: white;
+            padding: 5px 40px;
+            font-size: 14px;
+            font-weight: 600;
+            transform: rotate(45deg);
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+        
+        .price.free {
+            color: var(--free);
+        }
+        
+        .price.premium {
+            color: var(--premium);
+        }
+        
+        .price span {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+        
+        .features {
+            list-style: none;
+            text-align: left;
+            margin: 30px 0;
+        }
+        
+        .features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .features i {
+            margin-right: 10px;
+            color: var(--success);
+        }
+        
+        .features .disabled {
+            color: #ccc;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background: var(--light);
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .testimonial-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 300px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+        }
+        
+        .accordion {
+            max-width: 800px;
+            margin: 50px auto 0;
+        }
+        
+        .accordion-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .accordion-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.active {
+            max-height: 200px;
+            padding: 0 20px 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .ai-features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .pricing-card.premium {
+                transform: scale(1);
+            }
+            
+            .pricing-card.premium:hover {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    BudgetFaye
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Testimonials</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline">Login</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>AI-Powered Billing Solutions</h1>
+                <p>BudgetFaye helps you manage your invoices and payments with artificial intelligence. Free plan available with optional premium upgrades.</p>
+                <button class="btn btn-primary">Get Started for Free</button>
+                
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI Invoice Analysis</h3>
+                        <p>Automatically categorize and analyze your invoices</p>
+                    </div>
+                    <div class="ai-feature">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Smart Predictions</h3>
+                        <p>Predict future expenses and revenue trends</p>
+                    </div>
+                    <div class="ai-feature">
+                        <i class="fas fa-comments"></i>
+                        <h3>AI Chat Support</h3>
+                        <p>Get instant answers to your billing questions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs Section -->
+    <section class="container">
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="free">Free Plan</div>
+                <div class="tab" data-tab="premium">Premium Plan</div>
+                <div class="tab" data-tab="comparison">Comparison</div>
+            </div>
+            
+            <div class="tab-content active" id="free-content">
+                <h2>Free Plan - Perfect for Starters</h2>
+                <p>Our free plan gives you everything you need to get started with AI-powered billing. You can create up to 10 invoices per month, track expenses, and get basic AI insights.</p>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> 10 invoices per month</li>
+                    <li><i class="fas fa-check"></i> Basic AI analysis</li>
+                    <li><i class="fas fa-check"></i> Email support</li>
+                    <li><i class="fas fa-check"></i> 1GB storage</li>
+                    <li><i class="fas fa-times" style="color: #ccc;"></i> Advanced reports</li>
+                </ul>
+                <button class="btn btn-outline" style="border-color: var(--free); color: var(--free);">Start Free Plan</button>
+            </div>
+            
+            <div class="tab-content" id="premium-content">
+                <h2>Premium Plan - For Growing Businesses</h2>
+                <p>Upgrade to our premium plan for unlimited invoices, advanced AI features, priority support, and custom reporting options.</p>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Unlimited invoices</li>
+                    <li><i class="fas fa-check"></i> Advanced AI insights</li>
+                    <li><i class="fas fa-check"></i> Priority support</li>
+                    <li><i class="fas fa-check"></i> 50GB storage</li>
+                    <li><i class="fas fa-check"></i> Custom reports</li>
+                </ul>
+                <button class="btn btn-primary">Try Premium Free for 14 Days</button>
+            </div>
+            
+            <div class="tab-content" id="comparison-content">
+                <h2>Free vs Premium - Which is Right for You?</h2>
+                <p>Compare our plans to see which one fits your business needs.</p>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <tr>
+                        <th style="text-align: left; padding: 15px; border-bottom: 1px solid #eee;">Feature</th>
+                        <th style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">Free</th>
+                        <th style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">Premium</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px; border-bottom: 1px solid #eee;">Invoices</td>
+                        <td style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">10/month</td>
+                        <td style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px; border-bottom: 1px solid #eee;">AI Features</td>
+                        <td style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">Basic</td>
+                        <td style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">Advanced</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px; border-bottom: 1px solid #eee;">Support</td>
+                        <td style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">Email</td>
+                        <td style="text-align: center; padding: 15px; border-bottom: 1px solid #eee;">Priority</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px;">Storage</td>
+                        <td style="text-align: center; padding: 15px;">1GB</td>
+                        <td style="text-align: center; padding: 15px;">50GB</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="container">
+            <h2 class="section-title">Choose Your Plan</h2>
+            <p class="section-subtitle">Whether you're just getting started or need advanced features, we have a plan for you</p>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card free">
+                    <h3>Free Plan</h3>
+                    <div class="price free">$0 <span>/month</span></div>
+                    <p>Perfect for individuals and small businesses</p>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> 10 invoices per month</li>
+                        <li><i class="fas fa-check"></i> Basic AI analysis</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                        <li><i class="fas fa-check"></i> 1GB storage</li>
+                        <li><i class="fas fa-times disabled"></i> Advanced reports</li>
+                    </ul>
+                    <button class="btn btn-outline" style="border-color: var(--free); color: var(--free); width: 100%;">Get Started</button>
+                </div>
+                
+                <div class="pricing-card premium">
+                    <div class="popular-badge">POPULAR</div>
+                    <h3>Premium Plan</h3>
+                    <div class="price premium">$15 <span>/month</span></div>
+                    <p>For growing businesses needing advanced features</p>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Unlimited invoices</li>
+                        <li><i class="fas fa-check"></i> Advanced AI insights</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> 50GB storage</li>
+                        <li><i class="fas fa-check"></i> Custom reports</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;">Try Premium</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Users Say</h2>
+            <p class="section-subtitle">Hear from businesses that have transformed their billing with AI</p>
+            
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "The AI features have saved me hours of manual work each week. The invoice analysis is incredibly accurate."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div>
+                            <h4>Ali Ahmed</h4>
+                            <p>Small Business Owner</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Upgrading to Premium was the best decision. The predictive analytics helped us reduce costs by 15%."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">S</div>
+                        <div>
+                            <h4>Sara Khan</h4>
+                            <p>Finance Manager</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "The free plan is great for startups. We used it for 6 months before upgrading as we grew."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">R</div>
+                        <div>
+                            <h4>Rehman Siddiqui</h4>
+                            <p>Startup Founder</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Find answers to common questions about BudgetFaye</p>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Can I use the free plan forever?</span>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Yes, our free plan is available indefinitely with all the features listed. You can upgrade to Premium anytime for additional capabilities.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>How does the AI analyze my invoices?</span>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Our AI uses machine learning to extract key information from your invoices, categorize expenses, detect anomalies, and provide insights into your spending patterns.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Can I switch between Free and Premium?</span>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Absolutely! You can upgrade to Premium at any time, and if you decide it's not for you, you can downgrade back to Free at the end of your billing cycle.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Is my data secure with BudgetFaye?</span>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Yes, we take security seriously. All data is encrypted, and we comply with industry-standard security protocols to keep your information safe.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BudgetFaye</h3>
+                    <p>Revolutionizing billing with artificial intelligence for businesses of all sizes.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Use Cases</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 BudgetFaye. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tabs functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                // Show the corresponding tab content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+        
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                content.classList.toggle('active');
+                
+                const icon = header.querySelector('i');
+                if (content.classList.contains('active')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                } else {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        });
+        
+        // Button click effects
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                // Show a message based on which button was clicked
+                if(this.textContent.includes('Free')) {
+                    alert('Free plan selected! Redirecting to sign up...');
+                } else if(this.textContent.includes('Premium')) {
+                    alert('Premium plan selected! Starting 14-day free trial...');
+                } else if(this.textContent.includes('Sign Up')) {
+                    alert('Redirecting to registration page...');
+                } else if(this.textContent.includes('Login')) {
+                    alert('Redirecting to login page...');
+                }
+            });
+        });
+        
+        // Feature card click effects
+        document.querySelectorAll('.ai-feature').forEach(feature => {
+            feature.addEventListener('click', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-5px)';
+                }, 200);
+                
+                const featureName = this.querySelector('h3').textContent;
+                alert(`Feature: ${featureName}\n\nThis AI feature will help you streamline your billing process.`);
+            });
+        });
+    </script>
+</body>
+</html>
